@@ -3,15 +3,29 @@ $(function(){
 	colorTituloBlanco($('.main-titulo'));
 
 	//llenar elementos en tablero
+	$('.btn-reinicio').click(function(){
+		
+		//primero borramos el contenido de las columnas
+		$('.col-1').empty();
+		$('.col-2').empty();
+		$('.col-3').empty();
+		$('.col-4').empty();
+		$('.col-5').empty();
+		$('.col-6').empty();
+		$('.col-7').empty();
 
-	agregarElemento($('.col-1'));
-	agregarElemento($('.col-2'));
-	agregarElemento($('.col-3'));
-	agregarElemento($('.col-4'));
-	agregarElemento($('.col-5'));
-	agregarElemento($('.col-6'));
-	agregarElemento($('.col-7'));
-
+		//luego agregamos los elementos
+		agregarElemento($('.col-1'));
+		agregarElemento($('.col-2'));
+		agregarElemento($('.col-3'));
+		agregarElemento($('.col-4'));
+		agregarElemento($('.col-5'));
+		agregarElemento($('.col-6'));
+		agregarElemento($('.col-7'));
+	});
+	
+	//deteccion de elementos iguales
+	
 	
 
 })
@@ -44,34 +58,34 @@ function agregarElemento(elemento){
 
 		switch (r){
 			case 1:
-				$(elemento).append('<img src="image/1.png" class="elemento"/>');
+				$(elemento).append('<img src="image/1.png" class="elemento uno"/>');
 			break;
 			case 2:
-				$(elemento).append('<img src="image/2.png" class="elemento"/>');
+				$(elemento).append('<img src="image/2.png" class="elemento dos"/>');
 			break;
 			case 3:
-				$(elemento).append('<img src="image/3.png" class="elemento"/>');
+				$(elemento).append('<img src="image/3.png" class="elemento tres"/>');
 			break;
 			case 4:
-				$(elemento).append('<img src="image/4.png" class="elemento"/>');
+				$(elemento).append('<img src="image/4.png" class="elemento cuatro"/>');
 			break;
 			case 5:
-				$(elemento).append('<img src="image/1.png" class="elemento"/>');
+				$(elemento).append('<img src="image/1.png" class="elemento uno"/>');
 			break;
 			case 6:
-				$(elemento).append('<img src="image/2.png" class="elemento"/>');
+				$(elemento).append('<img src="image/2.png" class="elemento dos"/>');
 			break;
 			case 7:
-				$(elemento).append('<img src="image/3.png" class="elemento"/>');
+				$(elemento).append('<img src="image/3.png" class="elemento tres"/>');
 			break;
 			case 8:
-				$(elemento).append('<img src="image/4.png" class="elemento"/>');
+				$(elemento).append('<img src="image/4.png" class="elemento cuatro"/>');
 			break;
 			case 9:
-				$(elemento).append('<img src="image/1.png" class="elemento"/>');
+				$(elemento).append('<img src="image/1.png" class="elemento uno"/>');
 			break;
 			case 10:
-				$(elemento).append('<img src="image/2.png" class="elemento"/>');
+				$(elemento).append('<img src="image/2.png" class="elemento dos"/>');
 			break;
 		}
 
