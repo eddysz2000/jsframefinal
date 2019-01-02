@@ -5,6 +5,12 @@ $(function(){
 	//llenar elementos en tablero
 
 	agregarElemento($('.col-1'));
+	agregarElemento($('.col-2'));
+	agregarElemento($('.col-3'));
+	agregarElemento($('.col-4'));
+	agregarElemento($('.col-5'));
+	agregarElemento($('.col-6'));
+	agregarElemento($('.col-7'));
 
 	
 
@@ -41,31 +47,31 @@ function agregarElemento(elemento){
 				$(elemento).append('<img src="image/1.png" class="elemento"/>');
 			break;
 			case 2:
-				a$(elemento).append('<img src="image/1.png" class="elemento"/>');
+				$(elemento).append('<img src="image/2.png" class="elemento"/>');
 			break;
 			case 3:
-				$(elemento).append('<img src="image/1.png" class="elemento"/>');
+				$(elemento).append('<img src="image/3.png" class="elemento"/>');
 			break;
 			case 4:
-				$(elemento).append('<img src="image/1.png" class="elemento"/>');
+				$(elemento).append('<img src="image/4.png" class="elemento"/>');
 			break;
 			case 5:
 				$(elemento).append('<img src="image/1.png" class="elemento"/>');
 			break;
 			case 6:
-				$(elemento).append('<img src="image/1.png" class="elemento"/>');
+				$(elemento).append('<img src="image/2.png" class="elemento"/>');
 			break;
 			case 7:
-				$(elemento).append('<img src="image/1.png" class="elemento"/>');
+				$(elemento).append('<img src="image/3.png" class="elemento"/>');
 			break;
 			case 8:
-				$(elemento).append('<img src="image/1.png" class="elemento"/>');
+				$(elemento).append('<img src="image/4.png" class="elemento"/>');
 			break;
 			case 9:
 				$(elemento).append('<img src="image/1.png" class="elemento"/>');
 			break;
 			case 10:
-				$(elemento).append('<img src="image/1.png" class="elemento"/>');
+				$(elemento).append('<img src="image/2.png" class="elemento"/>');
 			break;
 		}
 
