@@ -24,8 +24,14 @@ $(function(){
 		agregarElemento($('.col-7'));
 	});
 	
-	//deteccion de elementos iguales
 	
+	//deteccion de elementos iguales
+
+	//cambio de posicion de elementos
+	$(".elemento").sortable({
+    	placeholder: "nuevo"
+  	})
+
 	
 
 })
