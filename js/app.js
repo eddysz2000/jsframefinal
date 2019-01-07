@@ -1,24 +1,36 @@
+//variables para uso en funciones
 var clicks=0;
 var movimientos=0;
+var puntuacion=0;
 
-//Funcion Document Ready de jQuery al cargarse el DOM
+//Funcion de carga inicial de la pagina
 $(function(){
   //cambiar color de titulo principal
   colorTituloBlanco($('.main-titulo'))
-  $("body").on('finTiempo', tiempoAcabo)
-  $('.btn-reinicio').on('click', firstClickIniciar)
+
+  //carga de linstener para tiempo de juego
+  $("body").on('finTiempo', resumenFinal)
+
+  //boton de inicio de juevo
+  $('.btn-reinicio').on('click', iniciarJuego)
 
 
 })
 
 //Evento al presionar el botón iniciar para empezar un juego, o hacer un reload de la página para reiniciarlo
-function firstClickIniciar(){
+function iniciarJuego(){
   clicks++;
   if(clicks==1){
-    var tiempo = 60 * 2; //Minutos para el juego
+    var tiempo = 120; //Minutos para el juego
     $('.btn-reinicio').text('Reiniciar');
+
+    //carga de elementos en pantalla
     cargaInicial();
+
+    //inicio del timer
     startTimer(tiempo, $("#timer"));
+
+    //actualizacion de elementos en pantalla
     postJugada();
   }else{
     location.reload();
@@ -230,13 +242,13 @@ function postJugada(){
 }
 
 //Evento que reorganiza la página al acabarse el tiempo.
-function tiempoAcabo(){
+function resumenFinal(){
   $('.panel-tablero').hide(900);
   $('.panel-score')
     .animate({
       width: '100%'
     }, 1000, function(){
-      $(this).prepend("<h2 class='titulo-over'>Juego Terminado</h2>")
+      $(this).prepend("<h2 class='titulo-over'>Fin de Juego</h2>")
     })
   $('.time').hide(500)
   $('#score-text').hide()
