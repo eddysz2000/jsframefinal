@@ -1,36 +1,29 @@
 $(function(){
+
+	var clicks=0;
+
 	//cambiar color de titulo principal
 	colorTituloBlanco($('.main-titulo'));
 
-	//llenar elementos en tablero
+	//llenar elementos en tablero al presionar iniciar
 	$('.btn-reinicio').click(function(){
 		
-		//primero borramos el contenido de las columnas
-		$('.col-1').empty();
-		$('.col-2').empty();
-		$('.col-3').empty();
-		$('.col-4').empty();
-		$('.col-5').empty();
-		$('.col-6').empty();
-		$('.col-7').empty();
+  		clicks++;
+  		if(clicks==1){
+    		var tiempo = 120;
+    		$('.btn-reinicio').text('Reiniciar');
+    		cargaInicial();
+    		startTimer(tiempo, $("#timer"));
+    		postJugada();
+  		}else{
+    		location.reload();
+  		}
 
-		//luego agregamos los elementos
-		agregarElemento($('.col-1'));
-		agregarElemento($('.col-2'));
-		agregarElemento($('.col-3'));
-		agregarElemento($('.col-4'));
-		agregarElemento($('.col-5'));
-		agregarElemento($('.col-6'));
-		agregarElemento($('.col-7'));
 	});
 	
 	
-	//deteccion de elementos iguales
 
-	//cambio de posicion de elementos
-	$(".elemento").sortable({
-    	placeholder: "nuevo"
-  	})
+
 
 	
 
@@ -48,53 +41,59 @@ function colorTituloBlanco(elemento){
 
 //Animación que cambia el color del título a amarillo
 function colorTituloAmarillo(elemento){
-$(elemento).delay(1000).animate({
-color: '#DCFF0E'
-}, 10, function(){
-colorTituloBlanco(elemento);
-})
+	$(elemento).delay(1000).animate({
+		color: '#DCFF0E'
+	}, 10, function(){
+		colorTituloBlanco(elemento);
+	})
 }
 
-//Funcion que agrega en forma aleatoria los elementos en el tablero
-function agregarElemento(elemento){
+//funcion para cargar en forma incial la grilla del tablero
+function cargaInicial(){
+  var columna;
+  var i;
+  for (i=1; i <= 7; i++) {
+    columna = ".col-"+i;
+    agregarElemento($(columna), 7);
+  }
+}
+
+//Funcion que agrega en forma aleatoria los elementos en el tablero con las propiedades drag and drop y sus callbacks
+function agregarElemento(columna, espacios){
+	var elemento;
 	var i;
-	var r;
-	for (i=0;i<7;i++){
-		r=Math.floor((Math.random() * 10) + 1);
+  for (i = 0; i < espacios; i++) {
+    elemento = document.createElement("img");
+    $(elemento)
+      .attr("src", imagenAletoria())
+      .addClass("elemento")
+      .draggable({
+        grid: [120,90],
+        revert: "valid"
+      })
+      .droppable({
+        accept: ".elemento",
+        drop: function(event, ui){
+          var srcFrom = $(this).attr("src");
+          var srcTo = $(ui.draggable).attr("src");
+          $(this).attr("src", srcTo);
+          $(ui.draggable).attr("src", srcFrom);
+          window.setTimeout(postJugada, 500);
+          sumarMovimiento();
+        }
 
-		switch (r){
-			case 1:
-				$(elemento).append('<img src="image/1.png" class="elemento uno"/>');
-			break;
-			case 2:
-				$(elemento).append('<img src="image/2.png" class="elemento dos"/>');
-			break;
-			case 3:
-				$(elemento).append('<img src="image/3.png" class="elemento tres"/>');
-			break;
-			case 4:
-				$(elemento).append('<img src="image/4.png" class="elemento cuatro"/>');
-			break;
-			case 5:
-				$(elemento).append('<img src="image/1.png" class="elemento uno"/>');
-			break;
-			case 6:
-				$(elemento).append('<img src="image/2.png" class="elemento dos"/>');
-			break;
-			case 7:
-				$(elemento).append('<img src="image/3.png" class="elemento tres"/>');
-			break;
-			case 8:
-				$(elemento).append('<img src="image/4.png" class="elemento cuatro"/>');
-			break;
-			case 9:
-				$(elemento).append('<img src="image/1.png" class="elemento uno"/>');
-			break;
-			case 10:
-				$(elemento).append('<img src="image/2.png" class="elemento dos"/>');
-			break;
-		}
+      })
+    $(columna).prepend(elemento);
 
-	}
+  }
+}
 
+//Función para obtener un número aleatorio en un intervalo
+function numeroAleatorio(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+//Función que indica una ruta de imágen en forma aleatoria
+function imagenAletoria(){
+  var sources = ['image/1.png', 'image/2.png', 'image/3.png', 'image/4.png'];
+  return sources[numeroAleatorio(0,3)]
 }
