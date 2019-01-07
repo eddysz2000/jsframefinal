@@ -1,35 +1,29 @@
+var clicks=0;
+var movimientos=0;
+
+//Funcion Document Ready de jQuery al cargarse el DOM
 $(function(){
+  //cambiar color de titulo principal
+  colorTituloBlanco($('.main-titulo'))
+  $("body").on('finTiempo', tiempoAcabo)
+  $('.btn-reinicio').on('click', firstClickIniciar)
 
-	var clicks=0;
-	var movimientos=0;
-
-	//cambiar color de titulo principal
-	colorTituloBlanco($('.main-titulo'));
-
-	//llenar elementos en tablero al presionar iniciar
-	$('.btn-reinicio').click(function(){
-		
-  		clicks++;
-  		if(clicks==1){
-    		var tiempo = 120;
-    		$('.btn-reinicio').text('Reiniciar');
-    		cargaInicial();
-    		startTimer(tiempo, $("#timer"));
-    		postJugada();
-  		}else{
-    		location.reload();
-  		}
-
-	});
-	
-	
-
-
-
-	
 
 })
 
+//Evento al presionar el botón iniciar para empezar un juego, o hacer un reload de la página para reiniciarlo
+function firstClickIniciar(){
+  clicks++;
+  if(clicks==1){
+    var tiempo = 60 * 2; //Minutos para el juego
+    $('.btn-reinicio').text('Reiniciar');
+    cargaInicial();
+    startTimer(tiempo, $("#timer"));
+    postJugada();
+  }else{
+    location.reload();
+  }
+}
 
 //Animación que cambia el color del título a blanco
 function colorTituloBlanco(elemento){
@@ -66,7 +60,7 @@ function agregarElemento(columna, espacios){
   for (i = 0; i < espacios; i++) {
     elemento = document.createElement("img");
     $(elemento)
-      .attr("src", imagenAletoria())
+      .attr("src", imagenAleatoria())
       .addClass("elemento")
       .draggable({
         grid: [120,90],
@@ -94,7 +88,7 @@ function numeroAleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 //Función que indica una ruta de imágen en forma aleatoria
-function imagenAletoria(){
+function imagenAleatoria(){
   var sources = ['image/1.png', 'image/2.png', 'image/3.png', 'image/4.png'];
   return sources[numeroAleatorio(0,3)]
 }
@@ -114,7 +108,7 @@ function validaImagen(elemento1, elemento2){
 
 //Función que adiciona los puntos y esconde los elementos en línea (punto)
 function puntos(elemento1, elemento2, elemento3){
-  puntuacion= puntuacion + 10;
+  puntuacion = puntuacion + 10;
   $("#score-text").text(puntuacion);
   $(elemento1).hide('pulsate', 2000)
   $(elemento2).hide('pulsate', 2000)
@@ -134,7 +128,7 @@ function llenarDespuesTurno(){
   for (var i = 1; i <= 7; i++) {
     numeroElementos=$(".col-"+i).find("img").length;
     numeroFalta = 7 - numeroElementos;
-    fillElemento($(".col-"+i), numeroFalta);
+    agregarElemento($(".col-"+i), numeroFalta);
   }
   window.setTimeout(postJugada, 500)
 }
@@ -155,12 +149,12 @@ function checkMatch(){
       //Verficacion a la Izquierda
       if($(".col-"+(col-1)).length > 0){ //Verifica si existe elemento a la izquierda
         elementoCompara = $(".col-"+(col-1)).find("img")[row]
-        if (checkSrc(actual, elementoCompara)) {
+        if (validaImagen(actual, elementoCompara)) {
           matchIzquierda = true;
           if($(".col-"+(col-2)).length > 0){ //Verifica si existen dos columnas a la izquierda
             elementoCompara = $(".col-"+(col-2)).find("img")[row]
-            if(checkSrc(actual, elementoCompara)){
-              punto(actual, $(".col-"+(col-1)).find("img")[row], elementoCompara )
+            if(validaImagen(actual, elementoCompara)){
+              puntos(actual, $(".col-"+(col-1)).find("img")[row], elementoCompara )
 
             }
           }
@@ -170,12 +164,12 @@ function checkMatch(){
       //Verificacion a la Derecha
       if($(".col-"+(col+1)).length > 0){ //Verifica si existe elemento a la izquierda
         elementoCompara = $(".col-"+(col+1)).find("img")[row]
-        if (checkSrc(actual, elementoCompara)) {
+        if (validaImagen(actual, elementoCompara)) {
           matchDerecha = true;
           if($(".col-"+(col+2)).length > 0){ //Verifica si existen dos columnas a la izquierda
             elementoCompara = $(".col-"+(col+2)).find("img")[row]
-            if(checkSrc(actual, elementoCompara)){
-              punto(actual, $(".col-"+(col+1)).find("img")[row], elementoCompara )
+            if(validaImagen(actual, elementoCompara)){
+              puntos(actual, $(".col-"+(col+1)).find("img")[row], elementoCompara )
 
             }
           }
@@ -184,18 +178,18 @@ function checkMatch(){
 
       //Verificacion ambos izquierda y Derecha
       if (matchIzquierda == true && matchDerecha == true) {
-        punto(actual, $(".col-"+(col-1)).find("img")[row], $(".col-"+(col+1)).find("img")[row])
+        puntos(actual, $(".col-"+(col-1)).find("img")[row], $(".col-"+(col+1)).find("img")[row])
 
       }
       //Verificación hacia arriba
       if($(".col-"+col).find("img")[row-1]){ //Verifica si existe elemento arriba
         elementoCompara = $(".col-"+col).find("img")[row-1]
-        if (checkSrc(actual, elementoCompara)) {
+        if (validaImagen(actual, elementoCompara)) {
           matchArriba = true;
           if($(".col-"+col).find("img")[row-2]){ //Verifica si existen dos filas hacia arriba
             elementoCompara = $(".col-"+col).find("img")[row-2]
-            if(checkSrc(actual, elementoCompara)){
-              punto(actual, $(".col-"+col).find("img")[row-1], elementoCompara)
+            if(validaImagen(actual, elementoCompara)){
+              puntos(actual, $(".col-"+col).find("img")[row-1], elementoCompara)
 
             }
           }
@@ -205,12 +199,12 @@ function checkMatch(){
       //Verificacion hacia abajo
       if($(".col-"+col).find("img")[row+1]){ //Verifica si existe elemento abajo
         elementoCompara = $(".col-"+col).find("img")[row+1]
-        if (checkSrc(actual, elementoCompara)) {
+        if (validaImagen(actual, elementoCompara)) {
           matchAbajo = true;
           if($(".col-"+col).find("img")[row+2]){ //Verifica si existen dos filas hacia abajo
             elementoCompara = $(".col-"+col).find("img")[row+2]
-            if(checkSrc(actual, elementoCompara)){
-              punto(actual, $(".col-"+col).find("img")[row+1], elementoCompara)
+            if(validaImagen(actual, elementoCompara)){
+              puntos(actual, $(".col-"+col).find("img")[row+1], elementoCompara)
 
             }
           }
@@ -218,11 +212,33 @@ function checkMatch(){
       }
       //Verificacion ambos Arriba y Abajo
       if (matchArriba == true && matchAbajo == true) {
-        punto(actual, $(".col-"+col).find("img")[row+1], $(".col-"+col).find("img")[row-1])
+        puntos(actual, $(".col-"+col).find("img")[row+1], $(".col-"+col).find("img")[row-1])
 
       }
     }
 
 
   }
+}
+
+//Función que se ejecuta una vez se termina una jugada verificando match, eliminando elementos escondidos y llenando faltantes
+function postJugada(){
+  checkMatch();
+  window.setTimeout(eliminarElementos,2100);
+  window.setTimeout(llenarDespuesTurno, 2200);
+
+}
+
+//Evento que reorganiza la página al acabarse el tiempo.
+function tiempoAcabo(){
+  $('.panel-tablero').hide(900);
+  $('.panel-score')
+    .animate({
+      width: '100%'
+    }, 1000, function(){
+      $(this).prepend("<h2 class='titulo-over'>Juego Terminado</h2>")
+    })
+  $('.time').hide(500)
+  $('#score-text').hide()
+  $('.score').append("<span class='data-info' id='score-final'>"+puntuacion+"</span>")
 }
